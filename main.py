@@ -59,29 +59,32 @@ dark_mode_close_btn = driver.find_element(By.XPATH, '//*[@id="o793001744"]/main/
 dark_mode_close_btn.click()
 
 
-def like():
-    like_btn = driver.find_element(By.XPATH,
-                                   '//*[@id="o-1773584476"]/div/div[1]/div/main/div[1]/div/div/div[1]/div['
-                                   '1]/div/div[4]/div/div[4]/button')
-    like_btn.click()
+like_btn = driver.find_element(By.XPATH,
+                               '//*[@id="o-1773584476"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div['
+                               '3]/div/div[4]/button')
 
+dislike_btn = driver.find_element(By.XPATH,
+                                  '//*[@id="o-1773584476"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div['
+                                  '3]/div/div[2]/button')
 
-def dislike():
-    dislike_btn = driver.find_element(By.XPATH,
-                                      '//*[@id="o-1773584476"]/div/div[1]/div/main/div[1]/div/div/div[1]/div['
-                                      '1]/div/div[4]/div/div[2]/button')
-    dislike_btn.click()
-
+home_screen_option = driver.find_element(By.XPATH, '//*[@id="o793001744"]/main/div/div[2]/button[2]')
 
 # free account is limited to 100 swipes
 for action in range(100):
-    time.sleep(3)
     try:
+        driver.implicitly_wait(5)
         # like()
-        dislike()
+        dislike_btn.click()
+
+        if home_screen_option:
+            home_screen_option.click()
     except ElementClickInterceptedException:
         try:
             match_popup = driver.find_element(By.CSS_SELECTOR, ".itsAMatch a")
             match_popup.click()
         except NoSuchElementException:
-            time.sleep(2)
+            time.sleep(3)
+        except ElementNotInteractableException:
+            print("Oh snap!")
+    driver.implicitly_wait(5)
+driver.quit()
