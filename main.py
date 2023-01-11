@@ -75,13 +75,14 @@ for action in range(100):
         driver.implicitly_wait(5)
         # like()
         dislike_btn.click()
-
-        if home_screen_option:
-            home_screen_option.click()
     except ElementClickInterceptedException:
         try:
             match_popup = driver.find_element(By.CSS_SELECTOR, ".itsAMatch a")
             match_popup.click()
+
+            home_screen_option = driver.find_element(By.XPATH, '//*[@id="o793001744"]/main/div/div[2]/button[2]')
+            home_screen_option.click()
+
         except NoSuchElementException:
             time.sleep(3)
         except ElementNotInteractableException:
